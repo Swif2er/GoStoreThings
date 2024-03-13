@@ -11,12 +11,12 @@ import (
 var CLI struct {
 	Ping struct{} `cmd:"" help:"Ping Redis to check if the connection is working."`
 	Set  struct {
-		Key   string `short:"k" help:"A key to be stored."`
-		Value string `short:"v" help:"A value to be stored."`
-	} `cmd:"" help:"Set a key-value pair to be stored in DB."`
+		Key   string `short:"k" help:"A key to be stored. "`
+		Value string `short:"v" help:"A value to be stored. "`
+	} `cmd:"" help:"Set a key-value pair to be stored in DB. [-k <key-name> -v <value>]"`
 	Get struct {
 		Key string `short:"k" help:"A key of the value to be retireved."`
-	} `cmd:"" help:"Retrieve a value for a given key from DB."`
+	} `cmd:"" help:"Retrieve a value for a given key from DB. [-k <key-name>]"`
 }
 
 func main() {
@@ -25,8 +25,8 @@ func main() {
 	}
 
 	cliContext := kong.Parse(&CLI,
-		kong.Name("GoStoreThings"),
-		kong.Description("A tool to store and retrieve data from Redis."))
+		kong.Name("go-store-things"),
+		kong.Description("CLI to store and retrieve data from Redis."))
 
 	dbClient := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
