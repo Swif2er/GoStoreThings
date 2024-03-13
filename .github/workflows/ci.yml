@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches:
+    - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v4
+      
+    - name: 'Login to GitHub Container Registry'
+      uses: docker/login-action@v1
+      with:
+        registry: ${{env.REGISTRY}}
+        username: ${{github.actor}}
+        password: ${{secrets.GITHUB_TOKEN}}
+
+    # image name should be in lowercase, while 'github.repository' could have uppercase letters
+    - name: 'Lowercase github.repository'
+      run: |
+        echo "IMAGE_NAME=`echo ${{github.repository}} | tr '[:upper:]' '[:lower:]'`" >> ${GITHUB_ENV}
+
+    # using tag `latest` here to save space in the registry, but ideally need to have a defined
+    # versione (best case - semantic version) of the image, which will be bumped on each run 
+    - name: 'Build and Push'
+      run: |
+        docker build . --tag ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:latest
+        docker push ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:latest
