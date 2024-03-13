@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/alecthomas/kong"
 	"github.com/go-redis/redis/v8"
@@ -19,6 +20,10 @@ var CLI struct {
 }
 
 func main() {
+	if len(os.Args) < 2 {
+		os.Args = append(os.Args, "--help")
+	}
+
 	cliContext := kong.Parse(&CLI,
 		kong.Name("GoStoreThings"),
 		kong.Description("A tool to store and retrieve data from Redis."))
