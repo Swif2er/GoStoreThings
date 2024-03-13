@@ -22,6 +22,6 @@ jobs:
 
     - name: 'Build and Push'
       run: |
-        docker build . --tag ghcr.io/Swif2er/go-store-things:latest
-        docker push ghcr.io/Swif2er/go-store-things:latest
+        docker build . --tag ghcr.io/swif2er/go-store-things:latest
+        docker push ghcr.io/swif2er/go-store-things:latest
         
