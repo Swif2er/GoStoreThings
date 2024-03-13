@@ -8,7 +8,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{github.repository}}
 
 jobs:
   ci:
@@ -29,6 +28,7 @@ jobs:
 
     - name: 'Build and Push'
       run: |
-        docker build . --tag ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:latest
-        docker push ${{env.REGISTRY}}/${{env.IMAGE_NAME}}:latest
+        echo "IMAGE_NAME=${{env.REGISTRY}}/${{github.repository@L}}" >> ${GITHUB_ENV}
+        docker build . --tag ${{env.IMAGE_NAME}}:latest
+        docker push ${{env.IMAGE_NAME}}:latest
         
