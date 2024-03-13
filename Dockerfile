@@ -18,4 +18,4 @@ WORKDIR /root/
 
 COPY --from=builder /app/go-store-things .
 
-ENTRYPOINT ["./go-store-things"] 
+ENTRYPOINT ["sleep", "infinity"]
