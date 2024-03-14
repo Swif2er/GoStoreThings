@@ -1,9 +1,15 @@
 replicaCount: 1
 
 image:
-  repository: go-store-things #ghcr.io/swif2er/go-store-things
-  pullPolicy: IfNotPresent
-  tag: 0.4 #"latest"
+  repository: ghcr.io/swif2er/go-store-things
+  pullPolicy: Always
+  tag: "latest"
+
+envVars:
+  - name: REDIS_HOST
+    value: redis-master
+  - name: REDIS_PORT
+    value: 6379
 
 imagePullSecrets: []
 nameOverride: ""
@@ -84,4 +90,5 @@ affinity: {}
 redis:
   architecture: standalone
   fullnameOverride: redis
-  usePassword: false
+  auth.sentinel: false
+  
