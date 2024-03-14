@@ -14,7 +14,7 @@ There is a CI build using GitHub actions to generate a Docker image and publish 
 ## Deployment 
 1. Run the bash script below to spin up the k8s cluster locally, and deploy service to it:  
 ```
-run.sh
+./run.sh
 ```
 > There is no CI step as the Docker image is getting built and published by this job https://github.com/Swif2er/go-store-things/actions/workflows/ci.yml and the package is available here: https://github.com/Swif2er/go-store-things/pkgs/container/go-store-things
 > Script will also verify the service and Redis are up and ready.
