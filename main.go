@@ -28,10 +28,16 @@ func main() {
 		kong.Name("go-store-things"),
 		kong.Description("CLI to store and retrieve data from Redis."))
 
+	var (
+		host     = getEnv("REDIS_HOST", "localhost")
+		port     = string(getEnv("REDIS_PORT", "6379"))
+		password = getEnv("REDIS_PASSWORD", "")
+	)
+
 	dbClient := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     host + ":" + port,
+		Password: password,
+		DB:       0,
 	})
 
 	dbContext := dbClient.Context()
@@ -57,4 +63,12 @@ func main() {
 		}
 		fmt.Printf("Value for key '%s' is '%s'.\n", CLI.Get.Key, value)
 	}
+}
+
+func getEnv(key, defaultValue string) string {
+	value := os.Getenv(key)
+	if value == "" {
+		return defaultValue
+	}
+	return value
 }
